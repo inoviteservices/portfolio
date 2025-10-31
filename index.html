@@ -47,15 +47,6 @@
   <div class="sidebar-info">
 
     <figure class="avatar-box">
-  <!-- Fallback (loads instantly) -->
-  <img 
-    id="fallback-logo" 
-    src="./img/News Logo.png" 
-    alt="Inovite - Fallback" 
-    width="80" 
-  >
-
-  <!-- Main GIF (hidden until loaded) -->
   <img 
     id="gif-logo" 
     src="./img/Adobe Express - Untitled (1280 x 1280 px) (2).gif" 
@@ -63,22 +54,6 @@
     width="80" 
   >
 </figure>
-
-<script>
-  const gif = document.getElementById('gif-logo');
-  const fallback = document.getElementById('fallback-logo');
-
-  gif.addEventListener('load', () => {
-    fallback.style.display = 'none';
-    gif.style.opacity = '1';
-  });
-
-  gif.addEventListener('error', () => {
-    // In case GIF fails to load
-    fallback.style.display = 'block';
-    gif.style.display = 'none';
-  });
-</script>
 
 
     <div class="info-content">
