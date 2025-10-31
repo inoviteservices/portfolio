@@ -511,239 +511,199 @@ At Inovite, we craft <strong>functional, user-friendly, and refined digital prod
         - #PORTFOLIO
       -->
 
-      <article class="portfolio" data-page="projects">
+   <article class="portfolio" data-page="projects">
+
+  <header>
+    <h2 class="h2 article-title">Projects</h2>
+  </header>
+
+  <section class="projects">
+
+    <!-- Filter Buttons -->
+    <ul class="filter-list">
+      <li class="filter-item"><button class="active" data-filter-btn>All</button></li>
+      <li class="filter-item"><button data-filter-btn>Web Development</button></li>
+      <li class="filter-item"><button data-filter-btn>App Development</button></li>
+      <li class="filter-item"><button data-filter-btn>Software</button></li>
+      <li class="filter-item"><button data-filter-btn>Design</button></li>
+      <li class="filter-item"><button data-filter-btn>Video</button></li>
+      <li class="filter-item"><button data-filter-btn>Ads</button></li>
+      <li class="filter-item"><button data-filter-btn>Automation</button></li>
+    </ul>
+
+    <!-- Dropdown Filter -->
+    <div class="filter-select-box">
+      <button class="filter-select" data-select>
+        <div class="select-value" data-selecct-value>Select category</div>
+        <div class="select-icon">
+          <ion-icon name="chevron-down"></ion-icon>
+        </div>
+      </button>
+
+      <ul class="select-list">
+        <li class="select-item"><button data-select-item>All</button></li>
+        <li class="select-item"><button data-select-item>Web Development</button></li>
+        <li class="select-item"><button data-select-item>App Development</button></li>
+        <li class="select-item"><button data-select-item>Software</button></li>
+        <li class="select-item"><button data-select-item>Design</button></li>
+        <li class="select-item"><button data-select-item>Video</button></li>
+        <li class="select-item"><button data-select-item>Ads</button></li>
+        <li class="select-item"><button data-select-item>Automation</button></li>
+      </ul>
+    </div>
+
+    <!-- Project Grid -->
+    <ul class="project-list">
+
+      <!-- 1. Web Development -->
+      <li class="project-item active" data-filter-item data-category="web development">
+        <a href="https://levelup.inovite.in">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/levelup.jpg" alt="Level Up Website" loading="lazy">
+          </figure>
+          <h3 class="project-title">Level Up Gaming Parlour</h3>
+          <p class="project-category">Web Development</p>
+        </a>
+      </li>
+
+      <!-- 2. Web Development -->
+      <li class="project-item active" data-filter-item data-category="web development">
+        <a href="https://inovite.in">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/inovite-portfolio.jpg" alt="Inovite Portfolio" loading="lazy">
+          </figure>
+          <h3 class="project-title">Inovite Official Website</h3>
+          <p class="project-category">Web Development</p>
+        </a>
+      </li>
+
+      <!-- 3. App Development -->
+      <li class="project-item active" data-filter-item data-category="app development">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/taskify.jpg" alt="Taskify App" loading="lazy">
+          </figure>
+          <h3 class="project-title">Taskify Productivity App</h3>
+          <p class="project-category">App Development</p>
+        </a>
+      </li>
+
+      <!-- 4. App Development -->
+      <li class="project-item active" data-filter-item data-category="app development">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/edutrack.jpg" alt="EduTrack App" loading="lazy">
+          </figure>
+          <h3 class="project-title">EduTrack Learning App</h3>
+          <p class="project-category">App Development</p>
+        </a>
+      </li>
+
+      <!-- 5. Software -->
+      <li class="project-item active" data-filter-item data-category="software">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/erp.jpg" alt="G7 ERP System" loading="lazy">
+          </figure>
+          <h3 class="project-title">G7 ERP Management System</h3>
+          <p class="project-category">Software</p>
+        </a>
+      </li>
+
+      <!-- 6. Software -->
+      <li class="project-item active" data-filter-item data-category="software">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/fintrack.jpg" alt="FinScope" loading="lazy">
+          </figure>
+          <h3 class="project-title">FinScope Finance Suite</h3>
+          <p class="project-category">Software</p>
+        </a>
+      </li>
+
+      <!-- 7. Design -->
+      <li class="project-item active" data-filter-item data-category="design">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/brandify.jpg" alt="Brandify Design" loading="lazy">
+          </figure>
+          <h3 class="project-title">Brandify Design Studio</h3>
+          <p class="project-category">Design</p>
+        </a>
+      </li>
+
+      <!-- 8. Design -->
+      <li class="project-item active" data-filter-item data-category="design">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/uiux.jpg" alt="UI/UX Design" loading="lazy">
+          </figure>
+          <h3 class="project-title">UI/UX for SaaS Dashboard</h3>
+          <p class="project-category">Design</p>
+        </a>
+      </li>
+
+      <!-- 9. Video -->
+      <li class="project-item active" data-filter-item data-category="video">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/advideo.jpg" alt="Ad Video" loading="lazy">
+          </figure>
+          <h3 class="project-title">Level Up Ad Video Campaign</h3>
+          <p class="project-category">Video</p>
+        </a>
+      </li>
+
+      <!-- 10. Ads -->
+      <li class="project-item active" data-filter-item data-category="ads">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/ads.jpg" alt="Meta Ads" loading="lazy">
+          </figure>
+          <h3 class="project-title">Meta & Google Ads Campaigns</h3>
+          <p class="project-category">Ads</p>
+        </a>
+      </li>
+
+      <!-- 11. Automation -->
+      <li class="project-item active" data-filter-item data-category="automation">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/whatsapp.jpg" alt="InovBot" loading="lazy">
+          </figure>
+          <h3 class="project-title">InovBot WhatsApp Automation</h3>
+          <p class="project-category">Automation</p>
+        </a>
+      </li>
+
+      <!-- 12. Automation -->
+      <li class="project-item active" data-filter-item data-category="automation">
+        <a href="#">
+          <figure class="project-img">
+            <div class="project-item-icon-box"><ion-icon name="eye-outline"></ion-icon></div>
+            <img src="./assets/images/projects/emailer.jpg" alt="AutoMailr" loading="lazy">
+          </figure>
+          <h3 class="project-title">AutoMailr Email Campaign Tool</h3>
+          <p class="project-category">Automation</p>
+        </a>
+      </li>
+
+    </ul>
+
+  </section>
+</article>
 
-        <header>
-          <h2 class="h2 article-title">Projects</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web development</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web design</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Applications</button>
-            </li>
-
-            
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web design</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Applications</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web development</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="https://visionacademy.pythonanywhere.com/">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/healthcare.jpg" style=" height:200px;" alt="AI Campaign Dashboard" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">AI Campaign Dashboard</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="https://temp-1-eta.vercel.app/">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/vision.jpg" style=" height:200px;" alt="vision" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Minimalist Business</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="https://temp-2-ruby.vercel.app/">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="https://portfolio-six-wheat-52.vercel.app/images/projects/creative-agency/1.png" alt="Creative Agency" style=" height:200px;"  loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Creative Agency</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-4.png" alt="brawlhalla" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Brawlhalla</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-5.png" style=" height:200px;" alt="dsm." loading="lazy">
-                </figure>
-
-                <h3 class="project-title">DSM.</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-6.png" style=" height:200px;" alt="metaspark" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">MetaSpark</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-7.png" style=" height:200px;" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Summary</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-8.jpg" style=" height:200px;" alt="task manager" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Task Manager</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-9.png" style=" height:200px;" alt="arrival" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Arrival</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
 
 
 
