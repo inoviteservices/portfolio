@@ -46,18 +46,44 @@
 
   <div class="sidebar-info">
 
-    <figure class="avatar-box">
-      <model-viewer 
-        src="./assets/images/inovite-favicon.glb" 
-        alt="Inovite Logo"
-        auto-rotate
-        disable-zoom
-        camera-controls
-        shadow-intensity="1"
-        exposure="1"
-        style="width:80px; height:80px; background:transparent; border-radius:50%;">
-      </model-viewer>
-    </figure>
+    <figure class="avatar-box" style="position: relative; width: 80px; height: 80px;">
+  <!-- Fallback (loads instantly) -->
+  <img 
+    id="fallback-logo" 
+    src="./img/News Logo.png" 
+    alt="Raj Patil - Fallback" 
+    width="80" 
+    height="80" 
+    style="position:absolute; top:0; left:0; width:80px; height:80px; object-fit:cover;"
+  >
+
+  <!-- Main GIF (hidden until loaded) -->
+  <img 
+    id="gif-logo" 
+    src="./img/Adobe Express - Untitled (1280 x 1280 px) (2).gif" 
+    alt="Raj Patil" 
+    width="80" 
+    height="80" 
+    style="opacity:0; transition:opacity 0.3s ease; width:80px; height:80px; object-fit:cover;"
+  >
+</figure>
+
+<script>
+  const gif = document.getElementById('gif-logo');
+  const fallback = document.getElementById('fallback-logo');
+
+  gif.addEventListener('load', () => {
+    fallback.style.display = 'none';
+    gif.style.opacity = '1';
+  });
+
+  gif.addEventListener('error', () => {
+    // In case GIF fails to load
+    fallback.style.display = 'block';
+    gif.style.display = 'none';
+  });
+</script>
+
 
     <div class="info-content">
       <h1 class="name" title="Inovite">Inovite</h1>
