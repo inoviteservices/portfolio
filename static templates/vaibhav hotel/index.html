@@ -1,141 +1,677 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotel Vaibhav - Luxury Stay & Dining</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
-  <style>
-    :root {
-      --primary: #8b5a2b;
-      --secondary: #f5e7d8;
-      --accent: #d4a76a;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Hotel Vaibhav - Luxury Stay & Dining</title>
 
-    body {
-      font-family: "Poppins", sans-serif;
-      scroll-behavior: smooth;
-    }
+    <!-- Tailwind (kept as original) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    .nav-link {
-      position: relative;
-    }
+    <!-- FontAwesome (kept as original) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    .nav-link::after {
-      content: "";
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -5px;
-      left: 0;
-      background-color: var(--accent);
-      transition: width 0.3s;
-    }
+    <!-- AOS for scroll animations (lightweight, CDN) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
 
-    .nav-link:hover::after {
-      width: 100%;
-    }
+    <!-- GLightbox for gallery lightbox -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/css/glightbox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/glightbox/3.2.0/js/glightbox.min.js"></script>
 
-    .active::after {
-      width: 100%;
-    }
+    <style>
+        :root {
+            --primary: #8b5a2b;
+            --secondary: #f5e7d8;
+            --accent: #d4a76a;
+        }
 
-    .room-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    }
+        /* Keep original styles exactly as you had plus some enhancements */
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    .food-card {
-      transition: all 0.3s ease;
-    }
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+              url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
 
-    .food-card:hover {
-      transform: scale(1.03);
-    }
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
 
-    .hero {
-      background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
-        url("https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80");
-      background-size: cover;
-      background-position: center;
-      height: 100vh;
-    }
-  </style>
+        .food-card {
+            transition: all 0.3s ease;
+        }
+
+        .food-card:hover {
+            transform: scale(1.03);
+        }
+
+        .amenity-icon {
+            color: var(--accent);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .active::after {
+            width: 100%;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+        }
+
+        .parallax {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        /* NEW: subtle elevated buttons and focus states */
+        .btn-accent {
+            background: var(--primary);
+            color: white;
+        }
+        .btn-accent:hover { filter: brightness(1.05) }
+
+        .btn-outline {
+            border: 2px solid var(--accent);
+            color: var(--primary);
+            background: white;
+        }
+
+        /* Mobile nav improvements */
+        .mobile-nav { display: none; }
+        @media (max-width: 768px) {
+            .mobile-nav { display: block; }
+            .hidden-md { display: none; }
+        }
+
+        /* Small tweaks to keep hero text readable on small screens */
+        @media (max-width: 480px) {
+            .hero { height: 70vh; }
+            .hero h1 { font-size: 1.75rem; }
+        }
+
+        /* Gallery grid */
+        .gallery-grid img { transition: transform .3s ease; }
+        .gallery-grid a:hover img { transform: scale(1.03); }
+    </style>
 </head>
-<body class="bg-gray-50">
-  <!-- Navigation -->
-  <nav class="fixed w-full bg-white shadow-md z-50">
-    <div class="container mx-auto px-6 py-3">
-      <div class="flex justify-between items-center">
-        <!-- Logo -->
-        <div class="text-2xl font-bold text-amber-800">Hotel Vaibhav</div>
+<body class="bg-gray-50 text-gray-800">
 
-        <!-- Desktop Menu -->
-        <div
-          id="nav-links"
-          class="hidden md:flex space-x-8 transition-all duration-300"
-        >
-          <a href="#home" class="nav-link text-gray-800 hover:text-amber-700 active">Home</a>
-          <a href="#rooms" class="nav-link text-gray-800 hover:text-amber-700">Rooms</a>
-          <a href="#dining" class="nav-link text-gray-800 hover:text-amber-700">Dining</a>
-          <a href="#amenities" class="nav-link text-gray-800 hover:text-amber-700">Amenities</a>
-          <a href="#contact" class="nav-link text-gray-800 hover:text-amber-700">Contact</a>
+    <!-- Navigation (kept intact + mobile toggle) -->
+    <nav class="fixed w-full bg-white shadow-md z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-amber-800">Hotel Vaibhav</div>
+                </div>
+
+                <!-- Desktop Links (kept original order and names) -->
+                <div class="hidden md:flex space-x-8 hidden-md">
+                    <a href="#home" class="nav-link text-gray-800 hover:text-amber-700 active">Home</a>
+                    <a href="#rooms" class="nav-link text-gray-800 hover:text-amber-700">Rooms</a>
+                    <a href="#dining" class="nav-link text-gray-800 hover:text-amber-700">Dining</a>
+                    <a href="#amenities" class="nav-link text-gray-800 hover:text-amber-700">Amenities</a>
+                    <a href="#contact" class="nav-link text-gray-800 hover:text-amber-700">Contact</a>
+                </div>
+
+                <!-- Mobile menu button (improved) -->
+                <button id="mobileMenuBtn" class="md:hidden mobile-nav focus:outline-none" aria-label="Open menu">
+                    <i class="fas fa-bars text-2xl text-gray-800"></i>
+                </button>
+            </div>
         </div>
 
-        <!-- Burger Button -->
-        <button id="menu-btn" class="md:hidden focus:outline-none">
-          <i class="fas fa-bars text-2xl text-gray-800"></i>
-        </button>
-      </div>
+        <!-- Mobile dropdown (added - does not remove existing content) -->
+        <div id="mobileMenu" class="hidden bg-white border-t">
+            <div class="px-6 py-4 flex flex-col space-y-3">
+                <a href="#home" class="nav-link text-gray-800 hover:text-amber-700">Home</a>
+                <a href="#rooms" class="nav-link text-gray-800 hover:text-amber-700">Rooms</a>
+                <a href="#dining" class="nav-link text-gray-800 hover:text-amber-700">Dining</a>
+                <a href="#amenities" class="nav-link text-gray-800 hover:text-amber-700">Amenities</a>
+                <a href="#gallery" class="nav-link text-gray-800 hover:text-amber-700">Gallery</a>
+                <a href="#pricing" class="nav-link text-gray-800 hover:text-amber-700">Packages</a>
+                <a href="#contact" class="nav-link text-gray-800 hover:text-amber-700">Contact</a>
+            </div>
+        </div>
+    </nav>
 
-      <!-- Mobile Menu -->
-      <div id="mobile-menu" class="hidden flex-col mt-3 space-y-3 md:hidden">
-        <a href="#home" class="block text-gray-800 hover:text-amber-700">Home</a>
-        <a href="#rooms" class="block text-gray-800 hover:text-amber-700">Rooms</a>
-        <a href="#dining" class="block text-gray-800 hover:text-amber-700">Dining</a>
-        <a href="#amenities" class="block text-gray-800 hover:text-amber-700">Amenities</a>
-        <a href="#contact" class="block text-gray-800 hover:text-amber-700">Contact</a>
-      </div>
-    </div>
-  </nav>
+    <!-- Hero Section (kept exactly, enhanced with AOS attributes) -->
+    <section id="home" class="hero flex items-center justify-center text-white">
+        <div class="text-center px-4" data-aos="fade-up" data-aos-duration="800">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-pulse">Welcome to Hotel Vaibhav</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Experience luxury, comfort, and exquisite dining in the heart of the city</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#rooms" class="bg-amber-700 hover:bg-amber-800 text-white px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105">Explore Rooms</a>
+                <a href="#dining" class="bg-white hover:bg-gray-100 text-amber-800 px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105">Discover Dining</a>
+            </div>
+        </div>
+    </section>
 
-  <!-- Hero Section -->
-  <section id="home" class="hero flex items-center justify-center text-white">
-    <div class="text-center px-4">
-      <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-pulse">
-        Welcome to Hotel Vaibhav
-      </h1>
-      <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-        Experience luxury, comfort, and exquisite dining in the heart of the
-        city
-      </p>
-      <div class="flex flex-col sm:flex-row justify-center gap-4">
-        <a
-          href="#rooms"
-          class="bg-amber-700 hover:bg-amber-800 text-white px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105"
-          >Explore Rooms</a
-        >
-        <a
-          href="#dining"
-          class="bg-white hover:bg-gray-100 text-amber-800 px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105"
-          >Discover Dining</a
-        >
-      </div>
-    </div>
-  </section>
+    <!-- About Section (kept intact, added small animation + accessibility alt improvements) -->
+    <section class="py-20 bg-white" data-aos="fade-up" data-aos-delay="100">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1632&q=80" alt="Hotel Lobby" class="rounded-lg shadow-xl w-full h-auto">
+                </div>
+                <div class="md:w-1/2 md:pl-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-6">About Hotel Vaibhav</h2>
+                    <p class="text-gray-600 mb-6">Established in 1995, Hotel Vaibhav has been a beacon of hospitality, offering unparalleled service and comfort to our guests. Our commitment to excellence has made us a preferred choice for travelers seeking both luxury and warmth.</p>
+                    <p class="text-gray-600 mb-8">Nestled in a prime location, we offer easy access to business districts, shopping centers, and cultural landmarks, making us the perfect base for both business and leisure travelers.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">24/7 Room Service</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Free High-Speed WiFi</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Multilingual Staff</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Concierge Services</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <script>
-    const menuBtn = document.getElementById("menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
+    <!-- Rooms Section (kept intact, added AOS and small visual tweaks) -->
+    <section id="rooms" class="py-20 bg-gray-100" data-aos="fade-up" data-aos-delay="150">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Our Luxurious Rooms</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Each of our rooms is designed to provide the ultimate comfort and relaxation, blending modern amenities with elegant decor.</p>
+            </div>
 
-    menuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
-      mobileMenu.classList.toggle("flex");
-    });
-  </script>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Deluxe Room -->
+                <div class="room-card bg-white rounded-lg overflow-hidden shadow-lg transition-all duration-300" data-aos="zoom-in">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Deluxe Room" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Deluxe Room</h3>
+                        <p class="text-gray-600 mb-4">Spacious room with a king-size bed, work desk, and panoramic city views.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-amber-700 font-bold">₹5,999/night</div>
+                            <a href="#" class="text-amber-700 hover:text-amber-800 font-semibold">View Details <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Executive Suite -->
+                <div class="room-card bg-white rounded-lg overflow-hidden shadow-lg transition-all duration-300" data-aos="zoom-in" data-aos-delay="50">
+                    <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Executive Suite" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Executive Suite</h3>
+                        <p class="text-gray-600 mb-4">Luxurious suite with separate living area, premium amenities, and city skyline views.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-amber-700 font-bold">₹9,999/night</div>
+                            <a href="#" class="text-amber-700 hover:text-amber-800 font-semibold">View Details <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Presidential Suite -->
+                <div class="room-card bg-white rounded-lg overflow-hidden shadow-lg transition-all duration-300" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1741506131058-533fcf894483?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1974" alt="Presidential Suite" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Presidential Suite</h3>
+                        <p class="text-gray-600 mb-4">Ultimate luxury with expansive space, private balcony, and butler service.</p>
+                        <div class="flex justify-between items-center">
+                            <div class="text-amber-700 font-bold">₹19,999/night</div>
+                            <a href="#" class="text-amber-700 hover:text-amber-800 font-semibold">View Details <i class="fas fa-arrow-right ml-1"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="#" class="inline-block bg-amber-700 hover:bg-amber-800 text-white px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105">View All Room Options</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dining Section (kept intact + small animation) -->
+    <section id="dining" class="py-20 bg-white" data-aos="fade-up" data-aos-delay="200">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Exquisite Dining Experiences</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Savor the flavors of our diverse culinary offerings, prepared by our award-winning chefs using the finest ingredients.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <!-- Indian Cuisine -->
+                <div class="food-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="flip-left">
+                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="Indian Cuisine" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Spice Route</h3>
+                        <p class="text-gray-600 mb-4">Authentic Indian flavors from across the subcontinent, featuring tandoor specialties and regional delicacies.</p>
+                        <div class="flex items-center text-amber-700">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>7:00 AM - 11:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- International Cuisine -->
+                <div class="food-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="flip-left" data-aos-delay="50">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80" alt="International Cuisine" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Global Bistro</h3>
+                        <p class="text-gray-600 mb-4">A world tour on your plate featuring Mediterranean, Asian, and Continental specialties.</p>
+                        <div class="flex items-center text-amber-700">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>11:00 AM - 11:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rooftop Lounge -->
+                <div class="food-card bg-white rounded-lg overflow-hidden shadow-md" data-aos="flip-left" data-aos-delay="100">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1374&q=80" alt="Rooftop Lounge" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">Sky Lounge</h3>
+                        <p class="text-gray-600 mb-4">Chic rooftop bar serving signature cocktails and light bites with panoramic city views.</p>
+                        <div class="flex items-center text-amber-700">
+                            <i class="fas fa-clock mr-2"></i>
+                            <span>4:00 PM - 1:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 rounded-lg p-8" data-aos="fade-up" data-aos-delay="150">
+                <div class="flex flex-col md:flex-row items-center">
+                    <div class="md:w-1/2 mb-6 md:mb-0">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Special Dining Packages</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <i class="fas fa-utensils text-amber-700 mt-1 mr-3"></i>
+                                <span class="text-gray-700">Sunday Brunch Buffet - ₹1,499 per person</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-wine-glass-alt text-amber-700 mt-1 mr-3"></i>
+                                <span class="text-gray-700">Romantic Dinner Package - ₹3,999 per couple</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-birthday-cake text-amber-700 mt-1 mr-3"></i>
+                                <span class="text-gray-700">Celebration Package (min. 10 people) - ₹999 per person</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="md:w-1/2 md:pl-8">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">Chef's Specials</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Signature Dish: Murg Malai Tikka</h4>
+                                <p class="text-gray-600 text-sm">Succulent chicken marinated in cream, cheese, and mild spices, cooked in tandoor</p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800">Must Try: Vaibhav Special Thali</h4>
+                                <p class="text-gray-600 text-sm">A complete meal featuring 8 different dishes, breads, rice, and desserts</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Amenities Section (kept intact) -->
+    <section id="amenities" class="py-20 bg-gray-100" data-aos="fade-up" data-aos-delay="250">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Hotel Amenities</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">We provide world-class facilities to ensure your stay is comfortable, convenient, and memorable.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="fade-up">
+                    <div class="amenity-icon">
+                        <i class="fas fa-swimming-pool"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Swimming Pool</h3>
+                    <p class="text-gray-600">Temperature-controlled infinity pool with panoramic views</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="50">
+                    <div class="amenity-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Spa & Wellness</h3>
+                    <p class="text-gray-600">Rejuvenating treatments and therapies for complete relaxation</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="amenity-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Fitness Center</h3>
+                    <p class="text-gray-600">State-of-the-art equipment with personal training available</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="150">
+                    <div class="amenity-icon">
+                        <i class="fas fa-wifi"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">High-Speed WiFi</h3>
+                    <p class="text-gray-600">Complimentary high-speed internet throughout the hotel</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="amenity-icon">
+                        <i class="fas fa-umbrella-beach"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Beach Access</h3>
+                    <p class="text-gray-600">Private beach area with loungers and cabanas</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="250">
+                    <div class="amenity-icon">
+                        <i class="fas fa-concierge-bell"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">24/7 Concierge</h3>
+                    <p class="text-gray-600">Personalized service for all your needs and requests</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="amenity-icon">
+                        <i class="fas fa-parking"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Valet Parking</h3>
+                    <p class="text-gray-600">Complimentary valet service for hotel guests</p>
+                </div>
+
+                <div class="text-center" data-aos="fade-up" data-aos-delay="350">
+                    <div class="amenity-icon">
+                        <i class="fas fa-business-time"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Business Center</h3>
+                    <p class="text-gray-600">Fully equipped meeting rooms and workstations</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section (kept original two testimonials, completed the third and preserved the style) -->
+    <section class="py-20 parallax" style="background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');" data-aos="fade-up">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-white mb-4">What Our Guests Say</h2>
+                <p class="text-gray-200 max-w-2xl mx-auto">Hear from our valued guests about their experiences at Hotel Vaibhav</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card rounded-lg p-6 shadow-lg" data-aos="fade-right">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/women/32.jpg" alt="Priya Sharma" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Priya Sharma</h4>
+                            <div class="flex text-amber-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"The service at Hotel Vaibhav is exceptional. The staff went above and beyond to make our anniversary special. The room was spacious and beautifully decorated, and the food was absolutely delicious!"</p>
+                </div>
+
+                <div class="testimonial-card rounded-lg p-6 shadow-lg" data-aos="fade-up">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Raj Patel" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Raj Patel</h4>
+                            <div class="flex text-amber-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"As a frequent business traveler, I appreciate the attention to detail at Hotel Vaibhav. The executive lounge is perfect for meetings, and the high-speed internet never fails. The beds are incredibly comfortable too!"</p>
+                </div>
+
+                <!-- Completed/added third testimonial to finish the original section -->
+                <div class="testimonial-card rounded-lg p-6 shadow-lg" data-aos="fade-left">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full overflow-hidden mr-4">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Meera Joshi" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800">Meera Joshi</h4>
+                            <div class="flex text-amber-500">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Lovely stay! The rooftop lounge views are stunning at sunset, and the staff made special arrangements for our family dinner. Highly recommended."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY: NEW SECTION (added - kept original visuals & theme) -->
+    <section id="gallery" class="py-20 bg-white" data-aos="fade-up">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Gallery</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">A glimpse into Hotel Vaibhav — rooms, dining, and moments that matter.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 gallery-grid">
+                <!-- Each image links to lightbox -->
+                <a href="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1632&q=80" class="glightbox" data-gallery="hotel">
+                    <img src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=600&q=80" alt="Lobby" class="w-full h-40 object-cover rounded-lg shadow-sm">
+                </a>
+                <a href="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=1470&q=80" class="glightbox" data-gallery="hotel">
+                    <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?auto=format&fit=crop&w=600&q=80" alt="Room" class="w-full h-40 object-cover rounded-lg shadow-sm">
+                </a>
+                <a href="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1374&q=80" class="glightbox" data-gallery="hotel">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=600&q=80" alt="Rooftop" class="w-full h-40 object-cover rounded-lg shadow-sm">
+                </a>
+                <a href="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=1470&q=80" class="glightbox" data-gallery="hotel">
+                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=600&q=80" alt="Dining" class="w-full h-40 object-cover rounded-lg shadow-sm">
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING / PACKAGES: NEW SECTION (added as requested) -->
+    <section id="pricing" class="py-20 bg-gray-100" data-aos="fade-up">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Packages & Pricing</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Choose a package tailored to your stay or special event.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-lg shadow-md p-6" data-aos="flip-left">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Weekend Getaway</h3>
+                    <p class="text-gray-600 mb-4">2 nights stay + breakfast, late checkout, and complimentary spa discount.</p>
+                    <div class="text-amber-700 font-bold text-lg mb-4">From ₹7,499</div>
+                    <div class="flex gap-3">
+                        <a href="tel:+917447706777" class="btn-accent px-4 py-4 rounded-full inline-block">Call to Book</a>
+                        <a href="https://wa.me/919447706777?text=Hi%20Hotel%20Vaibhav%2C%20I%20want%20to%20book%20the%20Weekend%20Getaway%20package" class="btn-outline px-4 py-4 rounded-full inline-block">WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6" data-aos="flip-up">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Romantic Dinner Package</h3>
+                    <p class="text-gray-600 mb-4">Candlelight dinner on the rooftop with a curated 3-course menu.</p>
+                    <div class="text-amber-700 font-bold text-lg mb-4">₹3,999 per couple</div>
+                    <div class="flex gap-3">
+                        <a href="tel:+917447706777" class="btn-accent px-4 py-4 rounded-full inline-block">Call to Book</a>
+                        <a href="https://wa.me/919447706777?text=Hello%20Vaibhav%2C%20I%20want%20the%20Romantic%20Dinner%20Package" class="btn-outline px-4 py-4 rounded-full inline-block">WhatsApp</a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6" data-aos="flip-right">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-3">Celebration Package (Group)</h3>
+                    <p class="text-gray-600 mb-4">Minimum 10 people — custom menu, private seating & event coordination.</p>
+                    <div class="text-amber-700 font-bold text-lg mb-4">₹999 per person</div>
+                    <div class="flex gap-3">
+                        <a href="tel:+917447706777" class="btn-accent px-4 py-4 rounded-full inline-block">Call to Book</a>
+                        <a href="https://wa.me/919447706777?text=Hi%20I%20need%20the%20Celebration%20Package%20details" class="btn-outline px-4 py-4 rounded-full inline-block">WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION MAP + BOOKING CTA (NEW) -->
+    <section id="contact" class="py-16 bg-white" data-aos="fade-up">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800">Visit or Book</h3>
+                    <p class="text-gray-600 mb-4">We're conveniently located — reach out for bookings, events, and reservations.</p>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-phone text-amber-700"></i>
+                            <a href="tel:+917447706777" class="text-gray-800 font-semibold">+91-7447706777</a>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fab fa-whatsapp text-amber-700"></i>
+                            <a href="https://wa.me/919447706777?text=Hi%20Hotel%20Vaibhav%2C%20I%20want%20to%20book" class="text-gray-800 font-semibold">Chat on WhatsApp</a>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <a href="tel:+917447706777" class="btn-accent px-4 py-4 rounded-full inline-block">Call Now</a>
+                        <a href="https://wa.me/919447706777?text=Hi%20Hotel%20Vaibhav%2C%20I%20want%20to%20book" class="btn-outline px-4 py-4 rounded-full inline-block">WhatsApp</a>
+                    </div>
+                </div>
+
+                <!-- Embedded Google Map (small + responsive) -->
+                <div>
+                    <div class="w-full h-64 rounded-lg overflow-hidden shadow">
+                        <!-- NOTE: Replace the src below with your real Google Maps embed if you have it -->
+                        <iframe class="w-full h-full" frameborder="0" referrerpolicy="no-referrer-when-downgrade"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.3757124023787!2d77.0130677!3d20.6949625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd72e008a44fe3f%3A0xe94ac733f35dc5ca!2sHotel%20Vaibhav!5e0!3m2!1sen!2sin!4v1761991338254!5m2!1sen!2sin"
+                            allowfullscreen="" loading="lazy" aria-hidden="false" tabindex="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER (added) -->
+    <footer class="bg-gray-900 text-gray-400 py-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div>
+                    <h4 class="text-white text-lg font-semibold">Hotel Vaibhav</h4>
+                    <p class="text-sm">Luxury Stay & Dining | Est. 1995</p>
+                </div>
+
+                <div class="flex gap-4 text-lg">
+                    <a href="#" class="hover:text-amber-600" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="hover:text-amber-600" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="hover:text-amber-600" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <div class="text-sm text-gray-500">
+                    © 2025 Hotel Vaibhav. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts: keep JS minimal and unobtrusive -->
+
+    <script>
+        // Initialize AOS animations
+        document.addEventListener('DOMContentLoaded', function () {
+            AOS.init({
+                once: true,
+                duration: 700,
+            });
+
+            // Initialize GLightbox for the gallery
+            const lightbox = GLightbox({ selector: '.glightbox' });
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn && mobileMenuBtn.addEventListener('click', function () {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Shrink header on scroll (keeps your original nav but nicer)
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (!nav) return;
+            if (window.scrollY > 60) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Smooth scroll for anchor links (improves mobile UX)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // close mobile menu after click
+                    if (!mobileMenu.classList.contains('hidden')) mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
