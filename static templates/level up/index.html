@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Level Up | Gaming Parlour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ==== Animated Background ==== */
+    .animated-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      --c: #ff4500;
+      background-color: #000;
+      background-image:
+        radial-gradient(4px 100px at 0px 235px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 235px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 117.5px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 252px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 252px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 126px, var(--c) 100%, #0000 150%),
+        radial-gradient(4px 100px at 0px 150px, var(--c), #0000),
+        radial-gradient(4px 100px at 300px 150px, var(--c), #0000),
+        radial-gradient(1.5px 1.5px at 150px 75px, var(--c) 100%, #0000 150%);
+      background-size:
+        300px 235px,
+        300px 235px,
+        300px 235px,
+        300px 252px,
+        300px 252px,
+        300px 252px,
+        300px 150px,
+        300px 150px,
+        300px 150px;
+      animation: hi 150s linear infinite;
+      overflow: hidden;
+    }
+
+    .animated-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      backdrop-filter: blur(1em) brightness(6);
+      background-image: radial-gradient(circle at 50% 50%, #0000 0, #0000 2px, hsl(0 0% 4%) 2px);
+      background-size: 8px 8px;
+    }
+
+    @keyframes hi {
+      0% {
+        background-position: 0 0, 3px 0, 151.5px 117.5px, 25px 24px, 28px 24px, 176.5px 150px, 50px 16px, 53px 16px, 201.5px 91px;
+      }
+      100% {
+        background-position: 0 6800px, 3px 6800px, 151.5px 6917.5px, 25px 13632px, 28px 13632px, 176.5px 13758px, 50px 5416px, 53px 5416px, 201.5px 5491px;
+      }
+    }
+
+    .glow:hover {
+      text-shadow: 0 0 10px #ff4500, 0 0 20px #ff4500, 0 0 40px #ff4500;
+    }
+
+    /* ==== Video Intro Styling ==== */
+    #videoOverlay {
+      position: fixed;
+      inset: 0;
+      background: black;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      will-change: opacity;
+    }
+
+    #introVideo {
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translateZ(0); /* enable GPU compositing */
+      will-change: transform, opacity;
+    }
+
+    /* Navbar logo + glow */
+    #navLogo {
+      height: 64px;
+      width: auto;
+      z-index: 10050;
+      transition: filter .45s ease, opacity .3s ease;
+      opacity: 1;
+      filter: drop-shadow(0 0 0 rgba(255,69,0,0));
+    }
+
+    /* glow class applied during animation */
+    .logo-glow {
+      animation: logoPulse 900ms cubic-bezier(.2,.9,.2,1) 1 forwards;
+    }
+    @keyframes logoPulse {
+      0% { filter: drop-shadow(0 0 0 rgba(255,69,0,0)); transform: scale(1); }
+      30% { filter: drop-shadow(0 6px 20px rgba(255,69,0,0.22)), drop-shadow(0 0 40px rgba(255,69,0,0.12)); transform: scale(1.06); }
+      70% { filter: drop-shadow(0 10px 40px rgba(255,69,0,0.32)), drop-shadow(0 0 60px rgba(255,69,0,0.18)); transform: scale(1.02); }
+      100% { filter: drop-shadow(0 6px 24px rgba(255,69,0,0.22)); transform: scale(1); }
+    }
+
+    #unmuteBtn {
+      position: absolute;
+      left: 50%;
+      top: 84%;
+      transform: translateX(-50%);
+      z-index: 10003;
+      background: rgba(255,69,0,0.98);
+      color: #000;
+      padding: 0.6rem 1rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255,69,0,0.18);
+    }
+    #unmuteBtn:hover { transform: translateX(-50%) scale(1.03); }
+    .unmute-hidden { display: none !important; }
+
+    /* animation for the upward fly */
+    .fly-up {
+      transition: transform 900ms cubic-bezier(.2,.9,.2,1), opacity 700ms ease;
+      transform: translateY(-110vh) translateZ(0);
+      opacity: 0.0;
+    }
+  </style>
+</head>
+<body class="bg-black text-gray-100 font-sans overflow-x-hidden">
+
+  <!-- Video Intro Overlay -->
+  <div id="videoOverlay" aria-hidden="false">
+    <video id="introVideo" autoplay muted playsinline>
+      <!-- CHANGE THIS PATH if needed -->
+      <source src="9f77953e-eb46-4dd9-959c-b0976eafa1a1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Button to enable sound (keeps autoplay muted initially so browsers allow playback) -->
+    <button id="unmuteBtn" aria-label="Enable sound" title="Enable sound">Enable Sound</button>
+  </div>
+
+ <!-- Navbar -->
+<nav class="fixed top-0 left-0 w-full text-white shadow-md z-50" 
+     style="
+       background: linear-gradient(to bottom, #ff4d00 0%, #000 100%);
+       backdrop-filter: blur(6px);
+     ">
+  <div class="flex items-center justify-center px-8 py-4">
+    
+    <!-- Left Links -->
+    <div class="flex items-center space-x-8">
+      <a href="#" class="hover:text-orange-500 glow transition">Home</a>
+      <a href="#" class="hover:text-orange-500 glow transition">Games</a>
+    </div>
+
+    <!-- Logo + Fire -->
+    <div class="mx-12" style="position: relative; display: inline-block;">
+      <img 
+        id="navLogo" 
+        src="8876365_1-1.png" 
+        alt="Level Up Logo"
+        style="
+          position: relative;
+          z-index: 2;
+          filter: drop-shadow(0 0 12px #000000);
+        "
+      >
+
+      <!-- Fire effect under logo -->
+      <div style="
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 90px;
+  background:
+    radial-gradient(circle at 50% 100%, #000000 0%, transparent 70%),
+    radial-gradient(circle at 50% 80%, #000000 20%, transparent 80%),
+    radial-gradient(circle at 50% 90%, #000000 30%, transparent 90%);
+  filter: blur(20px) brightness(1.2);
+  border-radius: 50%;
+  opacity: 0.8;
+  z-index: 1;
+"></div>
+
+    </div>
+
+    <!-- Right Links -->
+    <div class="flex items-center space-x-8">
+      <a href="#" class="hover:text-orange-500 glow transition">Booking</a>
+      <a href="#" class="hover:text-orange-500 glow transition">Contact</a>
+    </div>
+
+  </div>
+</nav>
+
+<style>
+@keyframes fireSmall {
+  0% {
+    transform: translateX(-50%) scaleY(0.9);
+    filter: blur(3px) brightness(1.2);
+  }
+  50% {
+    filter: blur(4px) brightness(1.5);
+  }
+  100% {
+    transform: translateX(-50%) scaleY(1.2);
+    filter: blur(5px) brightness(1.8);
+  }
+}
+</style>
+
+
+  <!-- Hero Section -->
+<section class="h-screen flex flex-col items-center justify-center text-center px-4 relative bg-black overflow-hidden">
+  <!-- Animated Background -->
+  <div class="animated-bg absolute inset-0 z-0"></div>
+
+  <!-- Main Content -->
+  <div class="relative z-10 max-w-3xl px-6 text-white">
+    <h1 class="text-5xl md:text-7xl font-extrabold mb-4">
+      Welcome to <span class="text-orange-500">Level Up</span>
+    </h1>
+    <p class="text-lg text-gray-300 mb-8 max-w-2xl mx-auto">
+      Play where the best gather — PS5, high-spec PCs, VR arenas, and tournaments. 
+      Clean setup, loud speakers, and a vibe that hits different. Game solo, squad up, or compete for prizes.
+    </p>
+    <div class="flex gap-4 justify-center">
+      <a href="#book" class="px-6 py-3 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 transition">
+        Book Your Slot
+      </a>
+      <a href="#events" class="px-6 py-3 border border-orange-500 text-orange-500 font-semibold rounded-md hover:bg-orange-500 hover:text-black transition">
+        Events
+      </a>
+    </div>
+  </div>
+</section>
+<!-- About Us Section -->
+<!-- ==== About Us Section ==== -->
+<section id="about" class="relative z-10 py-20 text-white text-center backdrop-blur-sm">
+  <div class="container mx-auto px-6 md:px-12 lg:px-20">
+    <h2 class="text-5xl font-extrabold text-orange-500 drop-shadow-[0_0_25px_#ff4500] mb-10">
+      About <span class="text-white">Us</span>
+    </h2>
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      
+      <!-- Video -->
+      <div class="rounded-2xl overflow-hidden shadow-[0_0_30px_#ff4500]">
+        <video autoplay loop muted playsinline class="w-full h-full object-cover">
+          <source src="C:\Users\rxjpa\Downloads\5781328-hd_1920_1080_25fps (1).mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <!-- Text -->
+      <div class="text-left space-y-4">
+        <h3 class="text-3xl font-bold text-orange-400">Welcome to Level Up 🎮</h3>
+        <p class="text-lg leading-relaxed text-gray-200">
+          Level Up isn’t just a gaming hub — it’s an experience designed for true gamers. 
+          From PS5 battles to high-end setups, we bring immersive gaming to life with the perfect vibe, energy, and comfort.
+        </p>
+        <p class="text-lg leading-relaxed text-gray-200">
+          Whether you're solo grinding, facing off with friends, or exploring new worlds, 
+          Level Up is your ultimate zone to chill, play, and win big.
+        </p>
+        <a href="#contact" class="inline-block mt-4 px-6 py-3 rounded-full text-lg font-semibold bg-orange-500 hover:bg-orange-600 shadow-[0_0_25px_#ff4500] transition-all">
+          Join the Game 🔥
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Events Section -->
+<section id="events" class="relative py-20 text-white overflow-hidden">
+  
+  <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto text-center mb-12 px-6 md:px-12 lg:px-24">
+    <h2 class="text-4xl md:text-5xl font-extrabold text-orange-500">Our Events</h2>
+    <p class="text-gray-300 mt-4">From tournaments to themed nights — check out what’s happening at Level Up.</p>
+  </div>
+
+  <div class="relative z-10 max-w-6xl mx-auto overflow-hidden">
+    <div class="carousel-inner flex transition-transform duration-700">
+      <div class="carousel-item flex-none w-full md:w-1/3 px-2">
+        <img src="https://images.pexels.com/photos/8721318/pexels-photo-8721318.jpeg" alt="Event Photo 1" class="rounded-2xl object-cover w-full h-64">
+      </div>
+      <div class="carousel-item flex-none w-full md:w-1/3 px-2">
+        <img src="https://images.pexels.com/photos/7915357/pexels-photo-7915357.jpeg" alt="Event Photo 2" class="rounded-2xl object-cover w-full h-64">
+      </div>
+      <div class="carousel-item flex-none w-full md:w-1/3 px-2">
+        <img src="https://images.pexels.com/photos/4842567/pexels-photo-4842567.jpeg" alt="Event Photo 3" class="rounded-2xl object-cover w-full h-64">
+      </div>
+    </div>
+
+    <!-- navigation -->
+    <button class="carousel-prev absolute top-1/2 left-4 transform -translate-y-1/2 text-white/60 hover:text-white text-3xl">&lt;</button>
+    <button class="carousel-next absolute top-1/2 right-4 transform -translate-y-1/2 text-white/60 hover:text-white text-3xl">&gt;</button>
+  </div>
+</section>
+
+
+<!-- Booking Section -->
+<section id="book" class="relative py-20 text-white overflow-hidden">
+  <!-- Background Video -->
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover z-0">
+    <source src="https://cdn.shopify.com/videos/c/o/v/cd735d6b4ecf4fcc89253a48463a0a74.mp4" type="video/mp4" />
+  </video>
+  <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-24 text-center">
+    <h2 class="text-5xl font-extrabold text-orange-500 mb-10">
+      Book Your <span class="text-white">Experience</span>
+    </h2>
+    <p class="text-gray-300 mb-12 max-w-3xl mx-auto">
+      From PS5 sessions to private VR battles — choose your experience and secure your slot.
+      Whether you're hosting a birthday, a squad showdown, or a chill night — Level Up has you covered.
+    </p>
+
+    <!-- Booking Cards -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- PS5 Zone -->
+      <div class="group bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-orange-500/20 hover:border-orange-500 hover:scale-105 transition-all">
+        <img src="https://images.pexels.com/photos/4009592/pexels-photo-4009592.jpeg" alt="PS5 Zone" class="rounded-lg mb-4 w-full h-48 object-cover">
+        <h3 class="text-2xl font-semibold text-orange-400 mb-2">PS5 Zone</h3>
+        <p class="text-gray-300 text-sm mb-4">Next-gen gaming setup with 4K displays and immersive sound — experience the real deal.</p>
+        <a href="#contact" class="inline-block px-5 py-2 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 transition">Book Now</a>
+      </div>
+
+      <!-- VR Arena -->
+      <div class="group bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-orange-500/20 hover:border-orange-500 hover:scale-105 transition-all">
+        <img src="https://images.pexels.com/photos/4389991/pexels-photo-4389991.jpeg" alt="VR Arena" class="rounded-lg mb-4 w-full h-48 object-cover">
+        <h3 class="text-2xl font-semibold text-orange-400 mb-2">VR Arena</h3>
+        <p class="text-gray-300 text-sm mb-4">Dive into full-immersion worlds with our advanced VR setup. Reality won’t feel the same again.</p>
+        <a href="#contact" class="inline-block px-5 py-2 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 transition">Book Now</a>
+      </div>
+
+      <!-- Bowling Alley -->
+      <div class="group bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-orange-500/20 hover:border-orange-500 hover:scale-105 transition-all">
+        <img src="https://images.pexels.com/photos/5781276/pexels-photo-5781276.jpeg" alt="Bowling Alley" class="rounded-lg mb-4 w-full h-48 object-cover">
+        <h3 class="text-2xl font-semibold text-orange-400 mb-2">Bowling</h3>
+        <p class="text-gray-300 text-sm mb-4">Strike up the fun! Perfect for friends, families, and casual tournaments under neon lights.</p>
+        <a href="#contact" class="inline-block px-5 py-2 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 transition">Book Now</a>
+      </div>
+
+      <!-- Private Events -->
+      <div class="group bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-orange-500/20 hover:border-orange-500 hover:scale-105 transition-all">
+        <img src="https://images.pexels.com/photos/2952834/pexels-photo-2952834.jpeg" alt="Private Events" class="rounded-lg mb-4 w-full h-48 object-cover">
+        <h3 class="text-2xl font-semibold text-orange-400 mb-2">Private Events</h3>
+        <p class="text-gray-300 text-sm mb-4">Host private tournaments, parties, or themed gaming nights — complete with food & drinks.</p>
+        <a href="#contact" class="inline-block px-5 py-2 bg-orange-500 text-black font-semibold rounded-md hover:bg-orange-600 transition">Book Now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Connect Us Section -->
+<section id="contact" class="relative py-20 text-white overflow-hidden">
+  <!-- Background Video -->
+  
+  <div class="absolute inset-0 bg-black/70 z-0"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 md:px-12 lg:px-24 text-center">
+    <h2 class="text-5xl font-extrabold text-orange-500 mb-6">
+      Connect <span class="text-white">With Us</span>
+    </h2>
+    <p class="text-gray-300 mb-12 max-w-2xl mx-auto">
+      Got questions? Want to collaborate, host an event, or just drop by for a game night?  
+      Reach out — we’d love to hear from you.
+    </p>
+
+    <!-- Contact Form -->
+    <div class="max-w-3xl mx-auto bg-white/10 backdrop-blur-sm border border-orange-500/20 p-8 rounded-2xl shadow-lg">
+      <form class="space-y-6">
+        <div class="grid md:grid-cols-2 gap-6">
+          <input type="text" placeholder="Your Name" class="w-full px-4 py-3 rounded-md bg-black/60 border border-orange-500/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition" required>
+          <input type="email" placeholder="Your Email" class="w-full px-4 py-3 rounded-md bg-black/60 border border-orange-500/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition" required>
+        </div>
+
+        <input type="text" placeholder="Subject" class="w-full px-4 py-3 rounded-md bg-black/60 border border-orange-500/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition">
+
+        <textarea placeholder="Your Message" rows="5" class="w-full px-4 py-3 rounded-md bg-black/60 border border-orange-500/30 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition"></textarea>
+
+        <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-black font-semibold py-3 rounded-md transition-all">
+          Send Message 🚀
+        </button>
+      </form>
+    </div>
+
+    <!-- Contact Details -->
+    <div class="mt-12 text-gray-300 space-y-2">
+      <p><strong class="text-orange-400">📍 Address:</strong> Level Up Gaming Lounge, Pune, India</p>
+      <p><strong class="text-orange-400">📞 Call:</strong> +91-7447706777</p>
+      <p><strong class="text-orange-400">✉️ Email:</strong> contact@levelup.in</p>
+    </div>
+
+    <!-- Social Icons -->
+    <div class="flex justify-center gap-6 mt-8 text-2xl">
+      <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-facebook"></i></a>
+      <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-discord"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FontAwesome Icons -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+
+<!-- Carousel JS -->
+<script>
+  const inner = document.querySelector('.carousel-inner');
+  const items = document.querySelectorAll('.carousel-item');
+  let idx = 0;
+
+  function showSlide(n) {
+    idx = (n + items.length) % items.length;
+    inner.style.transform = `translateX(-${idx * (100 / items.length)}%)`;
+  }
+
+  document.querySelector('.carousel-next').addEventListener('click', () => showSlide(idx + 1));
+  document.querySelector('.carousel-prev').addEventListener('click', () => showSlide(idx - 1));
+
+  // Auto-slide every 5 seconds
+  setInterval(() => showSlide(idx + 1), 5000);
+</script>
+
+<style>
+  .carousel-inner { width: calc(100% * 3); /* if 3 items */ }
+  .carousel-item { width: calc(100% / 3); }
+  /* JS will shift the carousel-inner margin to slide items */
+</style>
+
+<style>
+/* slow drifting effect for embers texture */
+@keyframes slowDrift {
+  0% { transform: translateY(0) scale(1); opacity: 0.08; }
+  50% { transform: translateY(-8px) scale(1.02); opacity: 0.10; }
+  100% { transform: translateY(0) scale(1); opacity: 0.08; }
+}
+</style>
+
+
+ <!-- Footer Section -->
+<footer class="bg-black text-gray-400 pt-10 pb-6 border-t border-gray-800">
+  <div class="max-w-6xl mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 text-center md:text-left">
+    
+    <!-- Brand -->
+    <div>
+      <h3 class="text-2xl font-bold text-white mb-3">Level Up 🎮</h3>
+      <p class="text-sm leading-relaxed">
+        Your ultimate gaming hub — where fun, competition, and community meet.  
+        Play. Connect. Level Up.
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="text-white font-semibold mb-3">Quick Links</h4>
+      <ul class="space-y-2">
+        <li><a href="#about" class="hover:text-orange-500 transition">About Us</a></li>
+        <li><a href="#events" class="hover:text-orange-500 transition">Events</a></li>
+        <li><a href="#booking" class="hover:text-orange-500 transition">Booking</a></li>
+        <li><a href="#contact" class="hover:text-orange-500 transition">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Socials -->
+    <div>
+      <h4 class="text-white font-semibold mb-3">Follow Us</h4>
+      <div class="flex justify-center md:justify-start gap-4 text-xl">
+        <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-facebook"></i></a>
+        <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="hover:text-orange-500 transition"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Line -->
+  <div class="text-center text-gray-500 text-sm border-t border-gray-800 mt-10 pt-4">
+    © 2025 Level Up Gaming Parlour. All rights reserved.
+  </div>
+</footer>
+
+
+  <script>
+    const introVideo = document.getElementById('introVideo');
+    const videoOverlay = document.getElementById('videoOverlay');
+    const unmuteBtn = document.getElementById('unmuteBtn');
+    const navLogo = document.getElementById('navLogo');
+
+    function enableSound() {
+      if (!introVideo) return;
+      try {
+        introVideo.muted = false;
+        introVideo.volume = 1;
+      } catch (e) { /* ignore */ }
+      if (unmuteBtn) unmuteBtn.classList.add('unmute-hidden');
+    }
+
+    if (unmuteBtn) {
+      unmuteBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        enableSound();
+        introVideo.play().catch(()=>{});
+      });
+    }
+
+    // When the video naturally ends, animate upward + glow logo
+    introVideo.addEventListener('ended', () => {
+      playExitAnimation();
+    });
+
+    // Also allow clicking the overlay background to skip to the end animation
+    videoOverlay.addEventListener('click', (e) => {
+      if (e.target === videoOverlay) {
+        enableSound();
+        // pause video to avoid playback while animating
+        try { introVideo.pause(); } catch (err) {}
+        playExitAnimation();
+      }
+    });
+
+    // Escape key to skip
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        try { introVideo.pause(); } catch (err) {}
+        playExitAnimation();
+      }
+    });
+
+    let animPlayed = false;
+    function playExitAnimation() {
+      if (animPlayed) return;
+      animPlayed = true;
+
+      // apply logo glow immediately for perceived responsiveness
+      navLogo.classList.add('logo-glow');
+
+      // small delay so glow is visible before video starts moving (tweak if you want)
+      requestAnimationFrame(() => {
+        // force a reflow to ensure transition will run
+        void introVideo.offsetHeight;
+
+        // add the class that moves video up and fades it
+        introVideo.classList.add('fly-up');
+
+        // after animation completes, fully hide overlay
+        const totalMs = 900 + 80; // match CSS transition + small buffer
+        setTimeout(() => {
+          // hide overlay and remove video from flow
+          videoOverlay.style.display = 'none';
+          videoOverlay.setAttribute('aria-hidden', 'true');
+
+          // remove the glow after a moment so logo returns to normal
+          setTimeout(() => navLogo.classList.remove('logo-glow'), 600);
+        }, totalMs);
+      });
+    }
+
+    // Ensure intro attempts to play; navLogo visible already (we don't hide it)
+    window.addEventListener('load', () => {
+      introVideo.play().catch(()=>{});
+    });
+  </script>
+</body>
+</html>
